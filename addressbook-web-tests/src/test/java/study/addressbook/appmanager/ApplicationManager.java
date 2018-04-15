@@ -24,11 +24,11 @@ public class ApplicationManager {
     }
 
     public void init() {
-        if (browser == BrowserType.FIREFOX){
+        if (browser.equals(BrowserType.FIREFOX)){
             wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
-        } else if (browser == BrowserType.CHROME){
+        } else if (browser.equals(BrowserType.CHROME)){
             wd = new ChromeDriver();
-        } else if (browser == BrowserType.SAFARI) {wd = new SafariDriver();}
+        } else if (browser.equals(BrowserType.SAFARI)) {wd = new SafariDriver();}
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/index.php");
         groupHelper= new GroupHelper(wd);

@@ -59,4 +59,8 @@ public class ContactHelper extends HelperBase{
     public boolean isThereAContact() {
         return isElementPresent(By.tagName("td"));
     }
+
+    public int getContactCount() {
+        return wd.findElements(By.tagName("tr")).size();
+    }
 }

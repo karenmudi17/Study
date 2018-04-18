@@ -39,8 +39,8 @@ public class ContactHelper extends HelperBase{
         wd.switchTo().alert().accept();
     }
 
-    public void contactSelection() {
-        click(By.name("selected[]"));
+    public void contactSelection(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void initContactModification() {
@@ -57,10 +57,10 @@ public class ContactHelper extends HelperBase{
     }
 
     public boolean isThereAContact() {
-        return isElementPresent(By.tagName("td"));
+        return isElementPresent(By.name("selected[]"));
     }
 
     public int getContactCount() {
-        return wd.findElements(By.tagName("tr")).size();
+        return wd.findElements(By.name("selected[]")).size();
     }
 }

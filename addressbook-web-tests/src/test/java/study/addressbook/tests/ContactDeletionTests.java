@@ -14,7 +14,7 @@ public class ContactDeletionTests extends TestBase {
             app.getContactHelper().createContact(new ContactData("Sveta", "Konina", null, null, "svk@gmul.com", "studyGroup2"),true);
         }
         app.getNavigationHelper().backToHomePage();
-        app.getContactHelper().contactSelection();
+        app.getContactHelper().contactSelection(before);
         app.getContactHelper().acceptContactDeletion();
         app.getNavigationHelper().backToHomePage();
         int after = app.getContactHelper().getContactCount();

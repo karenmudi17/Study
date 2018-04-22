@@ -8,9 +8,7 @@ import org.testng.Assert;
 import study.addressbook.model.ContactData;
 import study.addressbook.model.Contacts;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase{
 
@@ -68,12 +66,14 @@ public class ContactHelper extends HelperBase{
     public void create(ContactData contact, boolean b) {
         initContactCreation();
         fillNewContactForm(contact,b);
+        contactCache = null;
     }
 
     public void delete(ContactData contact) {
         backToHomePage();
         selectContactById(contact.getId());
         acceptContactDeletion();
+        contactCache = null;
         backToHomePage();
     }
 
@@ -83,6 +83,7 @@ public class ContactHelper extends HelperBase{
         initContactModification(contact.getId());
         fillNewContactForm(contact,false);
         submitContactModification();
+        contactCache = null;
         backToHomePage();
     }
 
@@ -94,16 +95,21 @@ public class ContactHelper extends HelperBase{
         return wd.findElements(By.name("selected[]")).size();
     }
 
+    private Contacts contactCache = null;
+
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if (contactCache != null){
+            return new Contacts(contactCache);
+        }
+        contactCache = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements){
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String firstName = element.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[3]", id))).getText();
             String lastName = element.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[2]", id))).getText();
-            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }
-        return contacts;
+        return contactCache;
     }
 
 }

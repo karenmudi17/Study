@@ -29,7 +29,7 @@ public class ApplicationManager {
         } else if (browser.equals(BrowserType.CHROME)){
             wd = new ChromeDriver();
         } else if (browser.equals(BrowserType.SAFARI)) {wd = new SafariDriver();}
-        wd.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/");
         groupHelper= new GroupHelper(wd);
         contactHelper = new ContactHelper(wd);
@@ -43,7 +43,7 @@ public class ApplicationManager {
         wd.quit();
     }
 
-    public GroupHelper getGroupHelper() {
+    public GroupHelper group() {
         return groupHelper;
     }
 
@@ -51,7 +51,7 @@ public class ApplicationManager {
         return contactHelper;
     }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 }

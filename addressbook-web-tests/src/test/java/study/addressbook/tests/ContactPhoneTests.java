@@ -1,16 +1,13 @@
 package study.addressbook.tests;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.Test;
 import study.addressbook.model.ContactData;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactPhoneTests extends TestBase{
 
@@ -19,14 +16,14 @@ public class ContactPhoneTests extends TestBase{
         app.goTo().homePage();
         ContactData contact = app.contact().all().iterator().next();
         ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
-        assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+        assertThat(contact.getAllPhones() + "\n" + contact.getAllEmails(), equalTo(mergePhones(contactInfoFromEditForm)));
     }
 
     private String mergePhones(ContactData contact){
-        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
-            .stream().filter((s) -> ! s.equals(""))
+        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone(), contact.getEmail(), contact.getEmail2(), contact.getEmail3())
+                .stream().filter((s) -> ! s.equals(""))
                 .map(ContactPhoneTests::cleaned)
-            .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n"));
     }
 
     public static String cleaned (String phone){

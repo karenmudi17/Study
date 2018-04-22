@@ -1,18 +1,15 @@
 package study.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import study.addressbook.model.ContactData;
-import study.addressbook.model.GroupData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase{
 
@@ -51,9 +48,12 @@ public class ContactHelper extends HelperBase{
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
+    public void selectContactById (int id) {
+        wd.findElement(By.cssSelector("input[value = '" + id + "']")).click();
+    }
+
     public void initContactModification(int id) {
-        wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a",id))).click();
-}
+        wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a",id))).click(); }
 
     public void submitContactModification() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
@@ -69,17 +69,17 @@ public class ContactHelper extends HelperBase{
         fillNewContactForm(contact,b);
     }
 
-    public void delete(List<ContactData> before) {
+    public void delete(ContactData contact) {
         backToHomePage();
-        contactSelection(before.size()-1);
+        selectContactById(contact.getId());
         acceptContactDeletion();
         backToHomePage();
     }
 
-    public void modify(List<ContactData> before, int index, ContactData contact) {
+    public void modify(ContactData contact) {
         backToHomePage();
-        contactSelection(index);
-        initContactModification(before.get(index).getId());
+        selectContactById(contact.getId());
+        initContactModification(contact.getId());
         fillNewContactForm(contact,false);
         submitContactModification();
         backToHomePage();
@@ -93,9 +93,8 @@ public class ContactHelper extends HelperBase{
         return wd.findElements(By.name("selected[]")).size();
     }
 
-
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<ContactData>();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements){
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));

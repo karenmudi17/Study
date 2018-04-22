@@ -4,36 +4,14 @@ import java.util.Objects;
 
 public class ContactData {
 
-    private int id;
-    private final String firstName;
-    private final String lastName;
-    private final String nickname;
-    private final String phone;
-    private final String email;
-    private final String group;
+    private int id = Integer.MAX_VALUE;
+    private String firstName;
+    private String lastName;
+    private String nickname;
+    private String phone;
+    private String email;
+    private String group;
 
-    public ContactData(int id,String firstName, String lastName, String nickname, String phone, String email, String group) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.email = email;
-        this.group = group;
-    }
-
-
-
-    public ContactData(String firstName, String lastName, String nickname, String phone, String email, String group) {
-        this.id = Integer.MAX_VALUE;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.email = email;
-        this.group = group;
-
-    }
 
     @Override
     public String toString() {
@@ -59,30 +37,31 @@ public class ContactData {
     }
 
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getFirstName() {
         return firstName;
     }
-
     public String getLastName() {
         return lastName;
     }
-
     public String getNickname() {
         return nickname;
     }
-
     public String getPhone() {
         return phone;
     }
-
     public String getEmail() {
         return email;
     }
-
     public String getGroup() {
         return group;
     }
+
+    public ContactData withId(int id) { this.id = id; return this;}
+    public ContactData withFirstName(String firstName) { this.firstName = firstName; return this;}
+    public ContactData withLastName(String lastName) { this.lastName = lastName; return this;}
+    public ContactData withNickname(String nickname) { this.nickname = nickname; return this;}
+    public ContactData withPhone(String phone) { this.phone = phone; return this;}
+    public ContactData withEmail(String email) { this.email = email; return this;}
+    public ContactData withGroup(String group) { this.group = group; return this;}
 
 }
